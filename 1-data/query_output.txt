@@ -1,0 +1,19 @@
+     product_name      | total_num_sold 
+-----------------------+----------------
+ Luxurious Fresh Car   |            101
+ Oriental Frozen Salad |             96
+ Awesome Cotton Table  |             90
+(3 rows)
+
+     product_name     | total_sales_value 
+----------------------+-------------------
+ Awesome Cotton Table |          71639.10
+ Bespoke Frozen Salad |          41052.48
+ Modern Cotton Shirt  |          39761.28
+(3 rows)
+
+       email       | phone_number  | total_spent_dec_2022 
+-------------------+---------------+----------------------
+ halle68@yahoo.com | 8301 060 1207 |              9551.28
+(1 row)
+
