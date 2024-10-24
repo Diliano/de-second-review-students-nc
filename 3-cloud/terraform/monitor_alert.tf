@@ -3,7 +3,7 @@ I have tried to fill in the boilerplate resources from the registry,
 however I did not finish in time or try to plan/apply
 */
 
-
+/*
 resource "aws_cloudwatch_log_metric_filter" "great_quote_filter" {
   name           = "GreatQuoteFilter"
   pattern        = "[GREAT QUOTE]"
@@ -36,3 +36,4 @@ resource "aws_cloudwatch_metric_alarm" "great_quote_alarm" {
   alarm_description   = "This metric monitors [GREAT QUOTE] being logged via the lambda function"
   alarm_actions       = [aws_sns_topic.great_quote_alert.arn]
 }
+*/
