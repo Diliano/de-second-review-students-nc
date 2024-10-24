@@ -15,7 +15,7 @@ logger.setLevel(logging.INFO)
 
 
 BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
-URL = "https://api.quotable.io/quotes/random"
+URL = "http://api.quotable.io/quotes/random"
 
 
 def lambda_handler(event, context):

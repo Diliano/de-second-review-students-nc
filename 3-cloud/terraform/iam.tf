@@ -30,22 +30,28 @@ resource "aws_iam_role" "lambda_role" {
 # Define
 
 
-/*
 data "aws_iam_policy_document" "s3_data_policy_doc" {
   statement {
     #TODO: this statement should give permission to put objects in the data bucket
+    effect = "Allow"
+
+    actions = ["s3:PutObject"]
+
+    resources = ["${aws_s3_bucket.data_bucket.arn}/*"]
   }
 }
 
 # Create
 resource "aws_iam_policy" "s3_write_policy" {
   name_prefix = "s3-policy-${var.lambda_name}-write"
-  policy      = #TODO use the policy document defined above
+  policy      = data.aws_iam_policy_document.s3_data_policy_doc.json #TODO use the policy document defined above
 }
 
 # Attach
 resource "aws_iam_role_policy_attachment" "lambda_s3_write_policy_attachment" {
-    #TODO: attach the s3 write policy to the lambda role
+  #TODO: attach the s3 write policy to the lambda role
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.s3_write_policy.arn
 }
 
 
@@ -57,20 +63,34 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_write_policy_attachment" {
 data "aws_iam_policy_document" "cw_document" {
   statement {
     #TODO: this statement should give permission to create Log Groups in your account
+    effect = "Allow"
+
+    actions = ["logs:CreateLogGroup"]
+
+    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
   }
 
   statement {
     #TODO: this statement should give permission to create Log Streams and put Log Events in the lambda's own Log Group
+    effect = "Allow"
+
+    actions = ["logs:CreateLogStream", "logs:PutLogEvents"]
+
+    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.lambda_name}:*"]
   }
 }
 
 # Create
 resource "aws_iam_policy" "cw_policy" {
   #TODO: use the policy document defined above
+  name_prefix = "cw-policy-${var.lambda_name}"
+  policy      = data.aws_iam_policy_document.cw_document.json
 }
 
 # Attach
 resource "aws_iam_role_policy_attachment" "lambda_cw_policy_attachment" {
   #TODO: attach the cw policy to the lambda role
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.cw_policy.arn
 }
-*/
+

@@ -100,7 +100,7 @@ class TestGetQuote:
         assert status_code == 200
 
     def test_get_quote_error_response_incorrect_url(self):
-        status_code, response = get_quote(url="https://api.quotable.io/quotes/wibble")
+        status_code, response = get_quote(url="http://api.quotable.io/quotes/wibble")
         assert status_code == 404
         assert response == {
             "status_message": "The requested resource could not be found"
@@ -108,7 +108,7 @@ class TestGetQuote:
 
     def test_get_quote_logs_errors(self, caplog):
         with caplog.at_level(logging.INFO):
-            get_quote(url="https://api.quotable.io/quotes/wibble")
+            get_quote(url="http://api.quotable.io/quotes/wibble")
             assert "HTTP Status 404" in caplog.text
 
 
