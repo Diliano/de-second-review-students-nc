@@ -3,10 +3,10 @@ What are the top three products by number of items sold? You need to provide the
 (Some transactions involve more than one item being sold...)
 */
 
-SELECT products.title as product_name, SUM(sales.num_items) as total_num_sold
-FROM products
-JOIN sales on products.id = sales.product_id
-GROUP BY products.title
+SELECT p.title as product_name, SUM(s.num_items) as total_num_sold
+FROM products AS p
+JOIN sales AS s on p.id = s.product_id
+GROUP BY p.title
 ORDER BY total_num_sold DESC
 LIMIT 3;
 
@@ -15,10 +15,10 @@ What are the top three products by monetary value? You need to provide the produ
 (where possible. What might cause a problem? Hint: check some records for December 2022.)
 */
 
-SELECT products.title as product_name, ROUND(SUM(sales.num_items * products.product_cost), 2) as total_sales_value
-FROM products
-JOIN sales on products.id = sales.product_id
-GROUP BY products.title
+SELECT p.title as product_name, ROUND(SUM(s.num_items * p.product_cost), 2) as total_sales_value
+FROM products AS p
+JOIN sales AS s on p.id = s.product_id
+GROUP BY p.title
 ORDER BY total_sales_value DESC
 LIMIT 3;
 
@@ -26,11 +26,11 @@ LIMIT 3;
 Which user was the top spender in December 2022? Provide their email address and phone number.
 */
 
-SELECT users.email, users.phone_number, ROUND(SUM(sales.num_items * products.product_cost), 2) as total_spent_dec_2022
-FROM users
-JOIN sales ON users.id = sales.buyer_id
-JOIN products ON sales.product_id = products.id
-WHERE EXTRACT(MONTH from sales.transaction_ts) = 12 AND EXTRACT(YEAR from sales.transaction_ts) = 2022
-GROUP BY users.id
+SELECT u.email, u.phone_number, ROUND(SUM(s.num_items * p.product_cost), 2) as total_spent_dec_2022
+FROM users AS u
+JOIN sales AS s ON u.id = s.buyer_id
+JOIN products AS p ON s.product_id = p.id
+WHERE EXTRACT(MONTH from s.transaction_ts) = 12 AND EXTRACT(YEAR from s.transaction_ts) = 2022
+GROUP BY u.id
 ORDER BY total_spent_dec_2022 DESC
 LIMIT 1;
