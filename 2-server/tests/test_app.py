@@ -26,23 +26,21 @@ class TestGetAllDoughnutsInfo:
         assert response.status_code == 200
         assert len(doughnuts) == 10
         for doughnut in doughnuts:
-            assert type(doughnut["doughnut_type"]) == str
-            assert type(doughnut["price"]) == float
-            assert type(doughnut["calories"]) == int
-            assert type(doughnut["contains_nuts"]) == bool
+            assert isinstance(doughnut["doughnut_type"], str)
+            assert isinstance(doughnut["price"], float)
+            assert isinstance(doughnut["calories"], int)
+            assert isinstance(doughnut["contains_nuts"], bool)
 
-
-class TestGetFilteredDoughnutsInfo:
     def test_200_gets_doughnuts_info_with_specified_max_calories_or_under(self, client):
         response = client.get("/doughnuts/info?max_calories=700")
         doughnuts = response.json()["doughnuts"]
         assert response.status_code == 200
         assert len(doughnuts) == 4
         for doughnut in doughnuts:
-            assert type(doughnut["doughnut_type"]) == str
-            assert type(doughnut["price"]) == float
-            assert type(doughnut["calories"]) == int
-            assert type(doughnut["contains_nuts"]) == bool
+            assert isinstance(doughnut["doughnut_type"], str)
+            assert isinstance(doughnut["price"], float)
+            assert isinstance(doughnut["calories"], int)
+            assert isinstance(doughnut["contains_nuts"], bool)
         assert all(doughnut["calories"] <= 700 for doughnut in doughnuts)
 
         response = client.get("/doughnuts/info?max_calories=600")
@@ -57,10 +55,10 @@ class TestGetFilteredDoughnutsInfo:
         assert response.status_code == 200
         assert len(doughnuts) == 5
         for doughnut in doughnuts:
-            assert type(doughnut["doughnut_type"]) == str
-            assert type(doughnut["price"]) == float
-            assert type(doughnut["calories"]) == int
-            assert type(doughnut["contains_nuts"]) == bool
+            assert isinstance(doughnut["doughnut_type"], str)
+            assert isinstance(doughnut["price"], float)
+            assert isinstance(doughnut["calories"], int)
+            assert isinstance(doughnut["contains_nuts"], bool)
         assert all(doughnut["contains_nuts"] is True for doughnut in doughnuts)
 
         response = client.get("/doughnuts/info?allow_nuts=False")
