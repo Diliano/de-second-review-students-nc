@@ -11,14 +11,14 @@ def handle_healthcheck():
 
 
 @app.get("/doughnuts/info")
-def get_doughnuts_info(max_calories: int = None, allow_nuts: bool = None):
+def get_doughnuts_info(max_calories: int = None, allow_nuts: bool = True):
     with open("data/doughnuts.json") as f:
         data = json.load(f)["doughnut_data"]
 
     if max_calories:
         data = [doughnut for doughnut in data if doughnut["calories"] <= max_calories]
 
-    if allow_nuts is not None:
+    if not allow_nuts:
         data = [
             doughnut for doughnut in data if doughnut["contains_nuts"] is allow_nuts
         ]

@@ -53,13 +53,12 @@ class TestGetAllDoughnutsInfo:
         response = client.get("/doughnuts/info?allow_nuts=True")
         doughnuts = response.json()["doughnuts"]
         assert response.status_code == 200
-        assert len(doughnuts) == 5
+        assert len(doughnuts) == 10
         for doughnut in doughnuts:
             assert isinstance(doughnut["doughnut_type"], str)
             assert isinstance(doughnut["price"], float)
             assert isinstance(doughnut["calories"], int)
             assert isinstance(doughnut["contains_nuts"], bool)
-        assert all(doughnut["contains_nuts"] is True for doughnut in doughnuts)
 
         response = client.get("/doughnuts/info?allow_nuts=False")
         doughnuts = response.json()["doughnuts"]
@@ -74,10 +73,14 @@ class TestGetAllDoughnutsInfo:
         assert len(doughnuts) == 4
         assert all(doughnut["contains_nuts"] is False for doughnut in doughnuts)
 
+        response = client.get("/doughnuts/info?max_calories=700&allow_nuts=true")
+        assert response.status_code == 200
+        assert len(doughnuts) == 4
+
         """
         The below combination of query params results in no doughnuts that meet the criteria
         """
-        response = client.get("/doughnuts/info?max_calories=700&allow_nuts=true")
+        response = client.get("/doughnuts/info?max_calories=280&allow_nuts=false")
         assert response.status_code == 200
         assert response.json() == {"doughnuts": []}
 
